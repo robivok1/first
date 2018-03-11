@@ -1,0 +1,5 @@
+with the command of 'echo' i put text into the file
+using '>>' instead of '>' start a new line
+What's up
+Nothing much, you
+same

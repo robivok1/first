@@ -4,6 +4,9 @@
 #include <stdio.h>    // file IO, perror()
 #include <string.h>   // str(n)cpy()
 #include <stdbool.h>  // Bool type
+#include <getopt.h>   // getopt_long and getopt_long_only functions
+#include <stdlib.h>   // fopen, fclose
+#include <errno.h>    // errno
 
 // Function prototypes:
 void print_help();
@@ -12,11 +15,52 @@ void print_env(char* envp[]);
 
 
 int main(int argc, char* argv[], char* envp[]) {
-  // If no arguments are given, print help
-  
-  // Set up struct option array long_options[]
-  
-  // Scan the different command-line arguments and options
+  // If no arguments are given, print help (default)
+ 
+   
+      
+
+   // Set up struct option array long_options[]       
+      static struct option long_options[] =
+	{
+	  {"help", no_argument,       0, 'h'},
+	  {"file", required_argument, 0, 'f'},
+	  {"end",  required_argument, 0, 'e'},
+	  {"env",  no_argument,       0, 'v'},         //optional argument?
+	  {0,      0,                 0,  0 }
+	};
+      int option_index = 0;           //option indexes stored here by getopt_long     
+      int  c = getopt_long (argc, argv, "hf:e:v", long_options, &option_index);
+    
+  while (c)
+    {
+       
+  //Scan the different command-line arguments and options
+          
+     ;
+      
+      switch (c)
+	{
+	case 'h':
+	  print_help();
+	  exit(EXIT_SUCCESS);
+	case 'f':
+	  read_file( optarg , 0);                //second argument stored in optarg
+	  exit(EXIT_SUCCESS);
+	case 'e':
+	  read_file( optarg , 1);
+	  exit(EXIT_SUCCESS);                    // return 0;
+	case 'v':
+	  print_env(envp);                          //I don't understand
+	  exit(EXIT_SUCCESS);	 
+	case '?':
+	  fprintf(stderr, "No Argument Found\n%s\n" ,strerror(errno) );
+	  exit (EXIT_FAILURE);
+	default :
+	  print_help();
+          exit (EXIT_SUCCESS);
+	}
+    }
   return 0;
 }
 
